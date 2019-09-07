@@ -1,10 +1,13 @@
 package com.activity.domain;
 
+import java.io.Serializable;
+
 /**
  * @author 高铭
  * @date 2019/9/2 - 22:03
  */
-public class Activity {
+public class Activity implements Serializable {
+    private static final long serialVersionUID = 795065803973114978L;
     private Integer aid;
     private Integer uid;
     private Integer activitypeople;
@@ -15,6 +18,7 @@ public class Activity {
     private String activitytype;
     private String activitycreatetime;
     private String activityaddress;
+    private Integer joinpeople;
 
     public Activity() {
     }
@@ -99,6 +103,15 @@ public class Activity {
         this.activityaddress = activityaddress;
     }
 
+
+    public Integer getJoinpeople() {
+        return joinpeople;
+    }
+
+    public void setJoinpeople(Integer joinpeople) {
+        this.joinpeople = joinpeople;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -112,6 +125,7 @@ public class Activity {
                 ", activitytype='" + activitytype + '\'' +
                 ", activitycreatetime='" + activitycreatetime + '\'' +
                 ", activityaddress='" + activityaddress + '\'' +
+                ", joinpeople=" + joinpeople +
                 '}';
     }
 }

@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * @author 高铭
  * @date 2019/9/3 - 16:40
- * http://localhost:8081/swagger-ui.html
+ * http://10.75.19.51:8081/swagger-ui.html
  */
 
 @Configuration
@@ -32,7 +32,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("活动管理项目中使用Swagger2构建RESTful API接口测试文档")
+                .title("活动组团管理项目中使用Swagger2构建RESTful API接口测试文档")
                 .description("rest api 文档构建利器")
                 .version("1.0")
                 .build();

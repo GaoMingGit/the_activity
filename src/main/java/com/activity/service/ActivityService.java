@@ -6,6 +6,7 @@ import com.activity.domain.User;
 import org.apache.ibatis.annotations.Insert;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 高铭
@@ -24,7 +25,7 @@ public interface ActivityService {
      * @param aid
      * @return
      */
-    Activity findActivityById(Integer aid);
+    Map<String,Object> findActivityById(Integer aid);
 
     /**
      *  创建活动
@@ -73,4 +74,8 @@ public interface ActivityService {
      * @return
      */
     List<Activity> findActivityByType(String activityType);
+
+    List<Activity> findActivityCreatedByUser(Integer uid);
+
+    int getMaxAid();
 }

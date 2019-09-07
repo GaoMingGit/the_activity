@@ -28,4 +28,11 @@ public interface UserMapper {
     User userLogin(User user);
 
 
+    /**
+     * 按用户名去查找
+     * @param username
+     * @return
+     */
+    @Select("select username from user where username = #{username}")
+    String findByUserName(String username);
 }

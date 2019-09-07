@@ -2,10 +2,8 @@ package com.activity.mapper;
 
 import com.activity.domain.Activity;
 import com.activity.domain.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import io.swagger.models.auth.In;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,14 +20,23 @@ public interface ActivityMapper {
      */
     @Select("select * from activitytable order by aid desc")
     List<Activity> findAllActivity();
+
     /**
-     *  创建活动
+     * 创建活动    @Options(useGeneratedKeys = true,keyProperty = "id")
      * @param activity
+     * @return
      */
+
     @Insert("insert into activitytable values (null,#{uid},#{activitypeople},#{activitytitle}," +
-            "#{activitycontent},#{activityendtime},#{activitystatus},#{activitytype},#{activitycreatetime},#{activityaddress})")
+            "#{activitycontent},#{activityendtime},#{activitystatus},#{activitytype},#{activitycreatetime},#{activityaddress},#{joinpeople})")
     void addActivity(Activity activity);
 
+    /**
+     * 得到最大的aid
+     * @return
+     */
+    @Select("select max(aid) from activitytable")
+    int getMaxAid();
     /**
      * 根据id查找活动
      * @param aid
@@ -43,7 +50,7 @@ public interface ActivityMapper {
      * @param activity
      */
     @Update("update activitytable set activitypeople = #{activitypeople},activitycontent = #{activitycontent}," +
-            "activitystatus = #{activitystatus},activitytype = #{activitytype}，activityaddress = #{activityaddress} where aid = #{aid}")
+            "activitystatus = #{activitystatus},activitytype = #{activitytype},activityaddress = #{activityaddress},joinpeople = #{joinpeople} where aid = #{aid}")
     void updateActivity(Activity activity);
 
     /**
@@ -59,7 +66,7 @@ public interface ActivityMapper {
      * @param uid
      * @return
      */
-    @Select("select aid,activitypeople,activitytitle,activitycontent,activityendtime,activitystatus,activitytype,activitycreatetime,activityaddress" +
+    @Select("select aid,activitypeople,activitytitle,activitycontent,activityendtime,activitystatus,activitytype,activitycreatetime,activityaddress,joinpeople" +
             " from activitytable where aid in ( select aid from user_activity where uid = #{uid})")
     List<Activity> userJoinedActivity(Integer uid);
 
@@ -87,4 +94,12 @@ public interface ActivityMapper {
      */
     @Select("select * from activitytable where activityType = #{activityType}")
     List<Activity> findActivityByType(String activityType);
+
+    /**
+     * 根据用户id查找用户创建的活动
+     * @param uid
+     * @return
+     */
+    @Select("select * from activitytable where uid = #{uid}")
+    List<Activity> findActivityCreatedByUser(Integer uid);
 }

@@ -23,4 +23,11 @@ public interface UserService {
      * @return
      */
     void userRegist(User user);
+
+    /**
+     * 查找用户的姓名
+     * @param username
+     * @return
+     */
+    String findByUserName(String username);
 }

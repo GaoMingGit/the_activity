@@ -1,10 +1,13 @@
 package com.activity.domain;
 
+import java.io.Serializable;
+
 /**
  * @author 高铭
  * @date 2019/9/2 - 22:03
  */
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 8809400125899786229L;
     private Integer uid;
     private String username;
     private String userpassword;
