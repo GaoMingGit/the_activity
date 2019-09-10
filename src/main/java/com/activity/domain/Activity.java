@@ -1,5 +1,7 @@
 package com.activity.domain;
 
+import io.swagger.models.auth.In;
+
 import java.io.Serializable;
 
 /**
@@ -21,6 +23,17 @@ public class Activity implements Serializable {
     private Integer joinpeople;
 
     public Activity() {
+    }
+
+    public Activity(Integer aid, String activitytitle, Integer activitypeople, String activityendtime,
+                    String activitytype, String activityaddress, String activitycontent) {
+        this.aid = aid;
+        this.activitytitle = activitytitle;
+        this.activitypeople = activitypeople;
+        this.activityendtime = activityendtime;
+        this.activitytype = activitytype;
+        this.activityaddress = activityaddress;
+        this.activitycontent = activitycontent;
     }
 
     public Integer getAid() {

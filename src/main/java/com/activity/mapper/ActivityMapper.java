@@ -38,7 +38,7 @@ public interface ActivityMapper {
     @Select("select max(aid) from activitytable")
     int getMaxAid();
     /**
-     * 根据id查找活动
+     * 根据aid查找活动
      * @param aid
      * @return
      */
@@ -49,12 +49,11 @@ public interface ActivityMapper {
      * 活动创建者修改活动
      * @param activity
      */
-    @Update("update activitytable set activitypeople = #{activitypeople},activitycontent = #{activitycontent}," +
-            "activitystatus = #{activitystatus},activitytype = #{activitytype},activityaddress = #{activityaddress},joinpeople = #{joinpeople} where aid = #{aid}")
+    @Update("update activitytable set activitytitle = #{activitytitle}, activitypeople = #{activitypeople},activitycontent = #{activitycontent},activityendtime = #{activityendtime},activitytype = #{activitytype},activityaddress = #{activityaddress} where aid = #{aid}")
     void updateActivity(Activity activity);
 
     /**
-     * 根据活动的aid查找出参加活动的所所有用户
+     * 根据活动的aid查找出参加活动的所有用户
      * @param aid
      * @return
      */
@@ -102,4 +101,27 @@ public interface ActivityMapper {
      */
     @Select("select * from activitytable where uid = #{uid}")
     List<Activity> findActivityCreatedByUser(Integer uid);
+
+    /**
+     * 用户取消报名参加活动
+     * @param aid
+     * @param uid
+     */
+    @Delete("delete from user_activity where aid = #{aid} and uid = #{uid}")
+    void deleteUserJoinActivity(@Param("aid") Integer aid, @Param("uid") Integer uid);
+
+    /**
+     * 根据aid删除活动表
+     * @param aid
+     * @return
+     */
+    @Delete("delete from activitytable where aid = #{aid}")
+    int deleteActivity(Integer aid);
+
+    /**
+     * 删除活动的人数参与表的数据
+     * @param aid
+     */
+    @Delete("delete from user_activity where aid = #{aid}")
+    void deleteActivityFromUserActivity(Integer aid);
 }

@@ -4,10 +4,12 @@ import com.activity.domain.Activity;
 import com.activity.domain.User;
 import com.activity.service.ActivityService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -108,8 +110,18 @@ public class ActivityController {
      * @return
      */
     @ApiOperation(value = "创建者对所创建的活动进行更新")
-    @RequestMapping(value = "/updateActivity",method = RequestMethod.PUT)
-    public String updateActivity(Activity activity){
+    @RequestMapping(value = "/updateActivity",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateActivity(HttpServletRequest request){
+        String activityTitle = request.getParameter("activitytitle");
+        String activityPeople = request.getParameter("activitypeople");
+        String activityEndTime = request.getParameter("activityendtime");
+        String activityType = request.getParameter("activitytype");
+        String activityAddress = request.getParameter("activityaddress");
+        String activityContent = request.getParameter("activitycontent");
+        String aid = request.getParameter("aid");
+        Activity activity = new Activity(Integer.parseInt(aid),activityTitle,Integer.parseInt(activityPeople),
+                activityEndTime,activityType,activityAddress,activityContent);
         activityService.updateActivity(activity);
         return "更新活动成功";
     }
@@ -180,6 +192,48 @@ public class ActivityController {
             map.put("code",1);
             map.put("msg","该分类的所有活动信息如下：");
             map.put("list",list);
+            return map;
+        }
+    }
+
+    @RequestMapping(value = "/userCancelJoinActivity",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> userCancelJoinActivity(Integer aid,Integer uid){
+        Map<String,Object> map = new HashMap<>();
+        //首先是查找出这条活动的信息
+        Map<String, Object> map1 = activityService.findActivityById(aid);
+        Activity activity = (Activity)map1.get("activity");
+        //将报名人数减一
+        activity.setJoinpeople(activity.getJoinpeople() - 1);
+        //更新数据库
+        activityService.updateActivity(activity);
+        //删除活动表参加的记录
+        activityService.deleteUserJoinActivity(aid,uid);
+
+        map.put("code",0);
+        return map;
+    }
+
+    /**
+     * 根据aid删除活动
+     * @param aid
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/deleteActiviy")
+    public Map<String,Object> deleteActivity(Integer aid){
+        System.out.println("=============要删除活动的id:"+aid);
+        Map<String,Object> map = new HashMap<>();
+        int result = activityService.deleteActivity(aid);
+        if(result > 0){
+            //代表删除活动成功
+            map.put("code",1);
+            map.put("msg","删除成功");
+            return map;
+        }else{
+            //代表删除活动失败
+            map.put("code",0);
+            map.put("msg","删除失败");
             return map;
         }
     }

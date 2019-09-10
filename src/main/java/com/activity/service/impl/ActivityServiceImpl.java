@@ -89,4 +89,18 @@ public class ActivityServiceImpl implements ActivityService {
     public int getMaxAid() {
         return activityMapper.getMaxAid();
     }
+
+    @Override
+    public void deleteUserJoinActivity(Integer aid, Integer uid) {
+        activityMapper.deleteUserJoinActivity(aid,uid);
+    }
+
+    @Override
+    public int deleteActivity(Integer aid) {
+        //删除活动
+        int result = activityMapper.deleteActivity(aid);
+        //删除活动的人数参与表的数据
+        activityMapper.deleteActivityFromUserActivity(aid);
+        return result;
+    }
 }

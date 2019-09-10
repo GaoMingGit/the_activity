@@ -78,4 +78,18 @@ public interface ActivityService {
     List<Activity> findActivityCreatedByUser(Integer uid);
 
     int getMaxAid();
+
+    /**
+     * 用户取消报名参加活动
+     * @param aid
+     * @param uid
+     */
+    void deleteUserJoinActivity(Integer aid, Integer uid);
+
+    /**
+     * 根据aid删除活动
+     * @param aid
+     * @return
+     */
+    int deleteActivity(Integer aid);
 }
