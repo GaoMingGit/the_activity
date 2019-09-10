@@ -120,8 +120,8 @@ public interface ActivityMapper {
 
     /**
      * 删除活动的人数参与表的数据
-     * @param aid
-     */
-    @Delete("delete from user_activity where aid = #{aid}")
+             * @param aid
+        */
+@Delete("delete from user_activity where aid = #{aid}")
     void deleteActivityFromUserActivity(Integer aid);
-}
+            }
