@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>活动举报的详情页面</title>
+</head>
+<body>
+<center>
+    <p>这是这个活动的相关用户反馈信息，管理员可以根据活动内容是否健康性，进而删除活动&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        该活动被举报次数<span style="color: red" th:text="${list.size()}"></span>次
+        <a th:href="@{/AdminFindAllActivity}">返回</a><a style="margin-left: 10px" th:href="@{AdminDeleteActiviy(aid=${aid})}">删除这个活动</a>
+    </p>
+    <table border="1px">
+        <tr>
+            <td>活动的id</td>
+            <td>举报人id</td>
+            <td>举报原因</td>
+            <td>举报时间</td>
+        </tr>
+        <tr th:if="${list.size() == 0}">
+            <h3>不好意思，用户还没有发布活动，暂时看不了活动信息！！！，请耐心等待用户创建发布信息！！！</h3>
+        </tr>
+        <tr th:each="banDetail : ${list}">
+            <td th:text="${banDetail.aid}"></td>
+            <td th:text="${banDetail.uid}"></td>
+            <td th:text="${banDetail.detail}"></td>
+            <td th:text="${banDetail.bantime}"></td>
+        </tr>
+    </table>
+</center>
+</body>
+</html>

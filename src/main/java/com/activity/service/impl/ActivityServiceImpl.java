@@ -1,6 +1,7 @@
 package com.activity.service.impl;
 
 import com.activity.domain.Activity;
+import com.activity.domain.BanDetail;
 import com.activity.domain.User;
 import com.activity.mapper.ActivityMapper;
 import com.activity.service.ActivityService;
@@ -102,5 +103,20 @@ public class ActivityServiceImpl implements ActivityService {
         //删除活动的人数参与表的数据
         activityMapper.deleteActivityFromUserActivity(aid);
         return result;
+    }
+
+    @Override
+    public void addBanDetail(BanDetail banDetail) {
+        activityMapper.addBanDetail(banDetail);
+    }
+
+    @Override
+    public List<BanDetail> findBanDetailByAid(Integer aid) {
+        return activityMapper.findBanDetailByAid(aid);
+    }
+
+    @Override
+    public List<Activity> findAllActivityOrderByBan() {
+        return activityMapper.findAllActivityOrderByBan();
     }
 }

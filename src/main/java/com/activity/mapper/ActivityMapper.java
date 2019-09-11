@@ -1,6 +1,7 @@
 package com.activity.mapper;
 
 import com.activity.domain.Activity;
+import com.activity.domain.BanDetail;
 import com.activity.domain.User;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.*;
@@ -18,7 +19,7 @@ public interface ActivityMapper {
      * 查看所有已经创建的活动
      * @return
      */
-    @Select("select * from activitytable order by aid desc")
+    @Select("select * from activitytable order by aid desc ")
     List<Activity> findAllActivity();
 
     /**
@@ -124,4 +125,27 @@ public interface ActivityMapper {
         */
 @Delete("delete from user_activity where aid = #{aid}")
     void deleteActivityFromUserActivity(Integer aid);
-            }
+
+    /**
+     * 添加举报的内容信息
+     * @param banDetail
+     * @return
+     */
+    @Insert("insert into ban_activity values (null,#{aid},#{uid},#{detail},#{bantime})")
+    void addBanDetail(BanDetail banDetail);
+
+    /**
+     * 根据活动的aid查询被举报的详情信息
+     * @param aid
+     * @return
+     */
+    @Select("select * from ban_activity where aid = #{aid} order by bantime desc")
+    List<BanDetail> findBanDetailByAid(Integer aid);
+
+    /**
+     * 查看所有已经创建的活动
+     * @return
+     */
+    @Select("select *,(select count(*) from ban_activity where aid = a.aid) as num from activitytable as a order by num desc")
+    List<Activity> findAllActivityOrderByBan();
+}

@@ -40,7 +40,6 @@ public class UserController {
 
         //使用ShiroEncryption加密工具类进行加密
         String pwd = ShiroEncryption.shiroEncryptionPwd(user.getUserpassword(), user.getUsername());
-        System.out.println("==========="+pwd);
         user.setUserpassword(pwd);
 
         String username = userService.findByUserName(user.getUsername());

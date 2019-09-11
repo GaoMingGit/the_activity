@@ -21,6 +21,7 @@ public class Activity implements Serializable {
     private String activitycreatetime;
     private String activityaddress;
     private Integer joinpeople;
+    private Integer num;
 
     public Activity() {
     }
@@ -34,6 +35,18 @@ public class Activity implements Serializable {
         this.activitytype = activitytype;
         this.activityaddress = activityaddress;
         this.activitycontent = activitycontent;
+    }
+
+    public Activity(Integer aid, String activitytitle, Integer activitypeople, String activityendtime,
+                    String activitytype, String activityaddress, String activitycontent,Integer num) {
+        this.aid = aid;
+        this.activitytitle = activitytitle;
+        this.activitypeople = activitypeople;
+        this.activityendtime = activityendtime;
+        this.activitytype = activitytype;
+        this.activityaddress = activityaddress;
+        this.activitycontent = activitycontent;
+        this.num = num;
     }
 
     public Integer getAid() {
@@ -125,6 +138,14 @@ public class Activity implements Serializable {
         this.joinpeople = joinpeople;
     }
 
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -138,7 +159,8 @@ public class Activity implements Serializable {
                 ", activitytype='" + activitytype + '\'' +
                 ", activitycreatetime='" + activitycreatetime + '\'' +
                 ", activityaddress='" + activityaddress + '\'' +
-                ", joinpeople=" + joinpeople +
+                ", joinpeople=" + joinpeople +'\'' +
+                ", num=" + num +
                 '}';
     }
 }

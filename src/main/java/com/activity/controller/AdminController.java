@@ -2,6 +2,7 @@ package com.activity.controller;
 
 import com.activity.domain.Activity;
 import com.activity.domain.Admin;
+import com.activity.domain.BanDetail;
 import com.activity.mapper.UserMapper;
 import com.activity.service.ActivityService;
 import io.swagger.annotations.ApiOperation;
@@ -60,7 +61,7 @@ public class AdminController {
     @ApiOperation(value = "查找全部已经创建好的活动")
     @RequestMapping(value = "/AdminFindAllActivity",method = RequestMethod.GET)
     public String findAllActivity(Map<String,Object> map){
-        List<Activity> list = activityService.findAllActivity();
+        List<Activity> list = activityService.findAllActivityOrderByBan();
         map.put("list",list);
         return "list";
     }
@@ -76,5 +77,13 @@ public class AdminController {
         Map<String,Object> map = new HashMap<>();
         int result = activityService.deleteActivity(aid);
         return "redirect:/AdminFindAllActivity";
+    }
+
+    @RequestMapping("/findBanDetailByAid")
+    public String findBanDetailByAid(Integer aid,Model model){
+       List<BanDetail> list = activityService.findBanDetailByAid(aid);
+        model.addAttribute("list",list);
+        model.addAttribute("aid",aid);
+        return "bandetail";
     }
 }

@@ -2,6 +2,7 @@ package com.activity.service;
 
 
 import com.activity.domain.Activity;
+import com.activity.domain.BanDetail;
 import com.activity.domain.User;
 import org.apache.ibatis.annotations.Insert;
 
@@ -92,4 +93,23 @@ public interface ActivityService {
      * @return
      */
     int deleteActivity(Integer aid);
+
+    /**
+     * 添加举报的信息内容
+     * @param banDetail
+     */
+    void addBanDetail(BanDetail banDetail);
+
+    /**
+     * 根据aid查询活动被举报的信息
+     * @param aid
+     * @return
+     */
+    List<BanDetail> findBanDetailByAid(Integer aid);
+
+    /**
+     * 查看所有已经创建的活动
+     * @return
+     */
+    List<Activity> findAllActivityOrderByBan();
 }

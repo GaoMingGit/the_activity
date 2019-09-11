@@ -1,6 +1,7 @@
 package com.activity.controller;
 
 import com.activity.domain.Activity;
+import com.activity.domain.BanDetail;
 import com.activity.domain.User;
 import com.activity.service.ActivityService;
 import io.swagger.annotations.ApiOperation;
@@ -220,7 +221,7 @@ public class ActivityController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/deleteActiviy")
+    @RequestMapping(value = "/deleteActiviy",method = RequestMethod.GET)
     public Map<String,Object> deleteActivity(Integer aid){
         System.out.println("=============要删除活动的id:"+aid);
         Map<String,Object> map = new HashMap<>();
@@ -236,5 +237,15 @@ public class ActivityController {
             map.put("msg","删除失败");
             return map;
         }
+    }
+
+    @RequestMapping(value = "/addBanDetail",method = RequestMethod.POST)
+    @ResponseBody
+    public int addBanDetail(@RequestBody BanDetail banDetail){
+        System.out.println(banDetail);
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        banDetail.setBantime(sdf.format(new Date()));
+        activityService.addBanDetail(banDetail);
+        return 1;
     }
 }
