@@ -40,6 +40,7 @@ public class UserController {
 
         //使用ShiroEncryption加密工具类进行加密
         String pwd = ShiroEncryption.shiroEncryptionPwd(user.getUserpassword(), user.getUsername());
+        System.out.println("==========="+pwd);
         user.setUserpassword(pwd);
 
         String username = userService.findByUserName(user.getUsername());
@@ -102,7 +103,7 @@ public class UserController {
             map.put("code",0);
             map.put("msg","用户账号可注册");
             //用ShiroEncryption工具类加密
-            user.setUserpassword(ShiroEncryption.shiroEncryptionPwd(user.getUsername(),user.getUserpassword()));
+            user.setUserpassword(ShiroEncryption.shiroEncryptionPwd(user.getUserpassword(),user.getUsername()));
             userService.userRegist(user);
             return map;
         }else{

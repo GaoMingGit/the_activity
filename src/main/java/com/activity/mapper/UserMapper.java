@@ -1,5 +1,6 @@
 package com.activity.mapper;
 
+import com.activity.domain.Admin;
 import com.activity.domain.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -36,6 +37,11 @@ public interface UserMapper {
     @Select("select username from user where username = #{username}")
     String findByUserName(String username);
 
-
-
+    /**
+     * 管理员登陆
+     * @param admin
+     * @return
+     */
+    @Select("select * from admin where adminname = #{adminname} and adminpassword = #{adminpassword}")
+    Admin adminLogin(Admin admin);
 }
