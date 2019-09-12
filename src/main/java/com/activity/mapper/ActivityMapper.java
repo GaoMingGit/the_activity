@@ -50,7 +50,7 @@ public interface ActivityMapper {
      * 活动创建者修改活动
      * @param activity
      */
-    @Update("update activitytable set activitytitle = #{activitytitle}, activitypeople = #{activitypeople},activitycontent = #{activitycontent},activityendtime = #{activityendtime},activitytype = #{activitytype},activityaddress = #{activityaddress} where aid = #{aid}")
+    @Update("update activitytable set activitytitle = #{activitytitle}, activitypeople = #{activitypeople},activitycontent = #{activitycontent},activityendtime = #{activityendtime},activitytype = #{activitytype},activityaddress = #{activityaddress},joinpeople =joinpeople + #{joinpeople} where aid = #{aid}")
     void updateActivity(Activity activity);
 
     /**

@@ -107,7 +107,7 @@ public class ActivityController {
 
     /**
      * 更新活动
-     * @param activity
+     * @param request
      * @return
      */
     @ApiOperation(value = "创建者对所创建的活动进行更新")
@@ -123,6 +123,7 @@ public class ActivityController {
         String aid = request.getParameter("aid");
         Activity activity = new Activity(Integer.parseInt(aid),activityTitle,Integer.parseInt(activityPeople),
                 activityEndTime,activityType,activityAddress,activityContent);
+        activity.setJoinpeople(0);
         activityService.updateActivity(activity);
         return "更新活动成功";
     }
@@ -168,7 +169,7 @@ public class ActivityController {
         Map<String,Object> map = activityService.findActivityById(aid);
         Map<String,Object> map1 =new HashMap<>();
         Activity activity = (Activity)map.get("activity");
-        activity.setJoinpeople(activity.getJoinpeople() + 1);
+        activity.setJoinpeople(1);
         activityService.updateActivity(activity);
         map1.put("code",1);
         map1.put("msg","用户参加活动成功");
@@ -197,6 +198,12 @@ public class ActivityController {
         }
     }
 
+    /**
+     * 用户取消参加活动
+     * @param aid
+     * @param uid
+     * @return
+     */
     @RequestMapping(value = "/userCancelJoinActivity",method = RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> userCancelJoinActivity(Integer aid,Integer uid){
@@ -205,7 +212,7 @@ public class ActivityController {
         Map<String, Object> map1 = activityService.findActivityById(aid);
         Activity activity = (Activity)map1.get("activity");
         //将报名人数减一
-        activity.setJoinpeople(activity.getJoinpeople() - 1);
+        activity.setJoinpeople(-1);
         //更新数据库
         activityService.updateActivity(activity);
         //删除活动表参加的记录
@@ -239,6 +246,11 @@ public class ActivityController {
         }
     }
 
+    /**
+     * 添加举报的信息
+     * @param banDetail
+     * @return
+     */
     @RequestMapping(value = "/addBanDetail",method = RequestMethod.POST)
     @ResponseBody
     public int addBanDetail(@RequestBody BanDetail banDetail){
