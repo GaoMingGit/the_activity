@@ -6,6 +6,11 @@ import com.activity.domain.BanDetail;
 import com.activity.mapper.UserMapper;
 import com.activity.service.ActivityService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,11 +50,29 @@ public class AdminController {
      */
     @RequestMapping("/adminLogin")
     public String adminLogin(Admin admin, Model model){
-        Admin adminLogin = userMapper.adminLogin(admin);
-        if(adminLogin != null){
+
+        /**
+         * 使用shiro编写验证登录
+         */
+        //获取subject
+        Subject subject = SecurityUtils.getSubject();
+        //封装用户登录数据
+        UsernamePasswordToken token = new UsernamePasswordToken(admin.getAdminname(),admin.getAdminpassword());
+        try {
+            //执行登录方法---->默认会去到userRealm这个类走doGetAuthenticationInfo这个方法
+            subject.login(token);
+            //登录成功,跳转到首页
+            model.addAttribute("msg","欢迎"+admin.getAdminname()+"你前登录");
             return "redirect:/AdminFindAllActivity";
-        }else {
-            model.addAttribute("msg","账号或者密码错误");
+        }catch (UnknownAccountException e){
+            //登录失败，用户名不存在
+            model.addAttribute("msg","用户名不存在");
+            //返回登录页面,有携带有信息，所以不能通过/user/toLoginUI这样的controller层跳转重定向到新的页面，只能是直接跳转具体页面
+            return "userLogin";
+        }catch (IncorrectCredentialsException e){
+            //登录失败，用户名不存在
+            model.addAttribute("msg","密码错误");
+            //返回登录页面
             return "userLogin";
         }
     }
@@ -65,7 +88,6 @@ public class AdminController {
         map.put("list",list);
         return "list";
     }
-
     /**
      * 管理员根据aid删除活动
      * @param aid

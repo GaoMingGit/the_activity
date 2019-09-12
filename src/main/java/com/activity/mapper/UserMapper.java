@@ -39,9 +39,9 @@ public interface UserMapper {
 
     /**
      * 管理员登陆
-     * @param admin
+     * @param adminname
      * @return
      */
-    @Select("select * from admin where adminname = #{adminname} and adminpassword = #{adminpassword}")
-    Admin adminLogin(Admin admin);
+    @Select("select * from admin where adminname = #{adminname}")
+    Admin findAdminByName(String adminname);
 }

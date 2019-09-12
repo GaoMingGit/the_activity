@@ -35,4 +35,13 @@ public class Admin implements Serializable {
     public void setAdminpassword(String adminpassword) {
         this.adminpassword = adminpassword;
     }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", adminname='" + adminname + '\'' +
+                ", adminpassword='" + adminpassword + '\'' +
+                '}';
+    }
 }
