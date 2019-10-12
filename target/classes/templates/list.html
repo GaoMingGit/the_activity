@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>全部活动</title>
+</head>
+<body>
+    <center>
+        <h1>这是所有活动信息，管理员可以根据活动内容是否健康性，进而删除活动</h1>
+        <table border="1px" style="cursor: pointer;text-align: center">
+            <tr>
+                <td>活动的id</td>
+                <td>活动规定人数</td>
+                <td>活动标题</td>
+                <td>活动内容</td>
+                <td>活动类型</td>
+                <td>结束时间</td>
+                <td>创建时间</td>
+                <td>活动地址</td>
+                <td>活动被举报次数</td>
+                <td>操作</td>
+            </tr>
+            <tr th:if="${list.size() == 0}">
+                <h3>不好意思，用户还没有发布活动，暂时看不了活动信息！！！，请耐心等待用户创建发布信息！！！</h3>
+            </tr>
+            <tr th:each="activity : ${list}" >
+                <td th:text="${activity.aid}"></td>
+                <td th:text="${activity.activitypeople}"></td>
+                <td th:text="${activity.activitytitle}"></td>
+                <td th:text="${activity.activitycontent}"></td>
+                <td th:if="${activity.activitytype == '1'}" th:text="运动"></td>
+                <td th:if="${activity.activitytype == '2'}" th:text="娱乐"></td>
+                <td th:if="${activity.activitytype == '3'}" th:text="电影"></td>
+                <td th:if="${activity.activitytype == '4'}" th:text="约饭"></td>
+                <td th:if="${activity.activitytype == '5'}" th:text="电影"></td>
+                <td th:if="${activity.activitytype == '6'}" th:text="拼车"></td>
+                <td th:if="${activity.activitytype == '7'}" th:text="学习"></td>
+                <td th:text="${activity.activityendtime}"></td>
+                <td th:text="${activity.activitycreatetime}"></td>
+                <td th:text="${activity.activityaddress}"></td>
+                <td th:text="${activity.num}"></td>
+                <td>
+                    <a th:href="@{findBanDetailByAid(aid=${activity.aid})}">查看详情</a>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
